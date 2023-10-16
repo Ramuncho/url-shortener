@@ -1,15 +1,14 @@
-package com.notarius.challenge.urlshortener.service;
+package com.notarius.challenge.urlshortener.utils;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
-public class EncodingService {
-    @Value("${urlId.allowedCharacters}")
-    private static String base62Characters;
+@Component
+public class Base62EncodingUtils {
+
+    private static String base62Characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private static final int BASE62_LENGTH = base62Characters.length();
 
-    public String encode(long numInput){
+    public static String encode(long numInput){
         StringBuilder encodedStringBuilder = new StringBuilder();
 
         if(numInput == 0) {
@@ -17,14 +16,14 @@ public class EncodingService {
         }
 
         while (numInput > 0) {
-            encodedStringBuilder.append(base62Characters.charAt((int) (numInput % BASE62_LENGTH)));
+            encodedStringBuilder.insert(0, base62Characters.charAt((int) (numInput % BASE62_LENGTH)));
             numInput = numInput / BASE62_LENGTH;
         }
 
         return encodedStringBuilder.toString();
     }
 
-    public long decode(String stringInput) {
+    public static long decode(String stringInput) {
         long decoded = 0L;
 
         //counter is used to avoid reversing input string

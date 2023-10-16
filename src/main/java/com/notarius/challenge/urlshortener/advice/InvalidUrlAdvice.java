@@ -1,5 +1,6 @@
-package com.notarius.challenge.urlshortener.exception;
+package com.notarius.challenge.urlshortener.advice;
 
+import com.notarius.challenge.urlshortener.exception.InvalidUrlException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

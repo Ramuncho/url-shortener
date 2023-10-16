@@ -1,7 +1,7 @@
 package com.notarius.challenge.urlshortener.exception;
 
-public class NotUrlException extends RuntimeException{
-    public NotUrlException(String invalidUrl) {
-        super(invalidUrl + "is not a valid Url");
+public class InvalidUrlException extends RuntimeException{
+    public InvalidUrlException(String invalidUrl) {
+        super(invalidUrl + " is not a valid Url");
     }
 }
