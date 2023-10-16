@@ -5,12 +5,16 @@ services:
     image: mariadb:latest
     restart: always
     environment:
-      MARIADB_ROOT_PASSWORD: Pass@123
-      MYSQL_USER: "Rdeje@n"
-      MYSQL_PASSWORD: "r0oT"
+      MARIADB_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: "shortyUrl"
+      MYSQL_USER: "root"
+      MYSQL_PASSWORD: "root"
     volumes:
       - "./mariadb/data:/var/lib/mysql/data/"
       - "./mariadb/logs:/var/lib/mysql/logs/"
+      - "./sql/init.sql:/docker-entrypoint-initdb.d/init.sql"
+    ports:
+      - "3306:3306"
 
 
   phpmyadmin:
