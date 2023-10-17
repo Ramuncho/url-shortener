@@ -20,10 +20,8 @@ public class ShortUrlController {
         return shorteningService.convertToShortUrl(longUrl);
     }
 
-//    @ApiOperation(value = "Redirect", notes = "Finds original url from short url and redirects")
     @GetMapping(value = "/original-url")
-//    @Cacheable(value = "urls", key = "#shortUrl", sync = true)
-    public ResponseEntity<String> getAndRedirect(@RequestParam String shortUrl) {
+    public ResponseEntity<String> getOriginalUrl(@RequestParam String shortUrl) {
         String longUrl = shorteningService.getOriginalUrl(shortUrl);
         return new ResponseEntity<>(longUrl, HttpStatus.OK);
     }

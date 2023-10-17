@@ -62,7 +62,7 @@ public class ShorteningService {
     }
 
     protected boolean isValidURL(String url) {
-        String[] schemes = {"http", "https"}; // DEFAULT schemes = "http", "https", "ftp"
+        String[] schemes = {"http", "https"};
         UrlValidator urlValidator = new UrlValidator(schemes);
         return urlValidator.isValid(url);
     }
