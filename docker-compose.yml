@@ -7,12 +7,11 @@ services:
     environment:
       MARIADB_ROOT_PASSWORD: "root"
       MYSQL_DATABASE: "shortyUrl"
-      MYSQL_USER: "root"
       MYSQL_PASSWORD: "root"
     volumes:
+      - "./sql/init.sql:/docker-entrypoint-initdb.d/init.sql"
       - "./mariadb/data:/var/lib/mysql/data/"
       - "./mariadb/logs:/var/lib/mysql/logs/"
-      - "./sql/init.sql:/docker-entrypoint-initdb.d/init.sql"
     ports:
       - "3306:3306"
 
