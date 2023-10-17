@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Base62EncodingUtils {
 
-    private static String base62Characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    private static String base62Characters = "Fq8YoXrMGpQOaemT1z07WELBtDv2UKyR4uHdVZfIj5skcNbSCJwilP69h3xgAn";
     private static final int BASE62_LENGTH = base62Characters.length();
 
     public static String encode(long numInput){
