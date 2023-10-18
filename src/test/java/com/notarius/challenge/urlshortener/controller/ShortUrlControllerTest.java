@@ -50,7 +50,7 @@ class ShortUrlControllerTest {
     }
 
     @Test
-    void shouldNotInsertFullUrlIfAlreadyExists() throws Exception {
+    void convertUrlshouldNotInsertUrlIfAlreadyExists() throws Exception {
         String decodedLongUrl = "https://www.example.com/foo";
         String encodedLongUrl = "https%3A%2F%2Fwww.example.com%2Ffoo";
         String otherLongUrl = "https://www.example.com/bar";
@@ -78,7 +78,17 @@ class ShortUrlControllerTest {
     }
 
     @Test
-    void getOriginalUrl() throws Exception {
+    void convertInvalidLongUrlReturnStatusBadRequest() throws Exception {
+        String invalidLongUrl = "trp://example.com";
+
+        mockMvc.perform(MockMvcRequestBuilders.get(API_PATH + "/shorten-url").param("longUrl", invalidLongUrl))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string(startsWith(invalidLongUrl + " is not a valid Url")));
+    }
+
+    @Test
+    void getOriginalUrlShouldReturnOk() throws Exception {
         String initialLongUrl = "https://www.example.com/foo";
         String shortUrl = mockMvc.perform(MockMvcRequestBuilders.get(API_PATH + "/shorten-url").param("longUrl", initialLongUrl))
                 .andDo(print())
@@ -92,5 +102,15 @@ class ShortUrlControllerTest {
                 .andReturn().getResponse().getContentAsString();
 
         Assert.assertEquals(initialLongUrl, originalUrl);
+    }
+
+    @Test
+    void getOriginalNonExistentUrlShouldReturnNotFound() throws Exception {
+        String nonExistentUrl = "http://www.shortyUrl.com/aHk5f7";
+
+        mockMvc.perform(MockMvcRequestBuilders.get(API_PATH + "/original-url").param("shortUrl", nonExistentUrl))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(content().string(startsWith(nonExistentUrl + " shorten url has not been found")));
     }
 }
