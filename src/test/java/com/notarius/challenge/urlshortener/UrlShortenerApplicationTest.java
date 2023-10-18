@@ -11,7 +11,7 @@ class UrlShortenerApplicationTest {
     }
 
     @Test
-    public void main() {
+    void main() {
         UrlShortenerApplication.main(new String[] {});
     }
 }

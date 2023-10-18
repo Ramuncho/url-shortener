@@ -1,9 +1,10 @@
 package com.notarius.challenge.urlshortener.utils;
 
-import org.springframework.stereotype.Component;
+public final class Base62EncodingUtils {
 
-@Component
-public class Base62EncodingUtils {
+    private Base62EncodingUtils() {
+        throw new IllegalStateException("This is a utility class and cannot be instantiated");
+    }
 
     private static String base62Characters = "Fq8YoXrMGpQOaemT1z07WELBtDv2UKyR4uHdVZfIj5skcNbSCJwilP69h3xgAn";
     private static final int BASE62_LENGTH = base62Characters.length();

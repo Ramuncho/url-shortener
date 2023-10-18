@@ -10,12 +10,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class Base62EncodingUtilsTest {
 
     @Test
-    public void encodeTest() {
+    void encodeTest() {
         assertEquals("q8Nddv", Base62EncodingUtils.encode(956547000L));
     }
 
     @Test
-    public void encode_WhenInputIs0_Test() {
+    void encode_WhenInputIs0_Test() {
         assertEquals("F", Base62EncodingUtils.encode(0L));
     }
 
