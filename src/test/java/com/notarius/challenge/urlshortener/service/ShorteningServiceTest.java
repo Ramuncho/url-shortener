@@ -22,14 +22,14 @@ class ShorteningServiceTest {
     UrlRepository mockUrlRepository;
 
     private ShorteningService shorteningService;
+    private static final String SERVICE_NAME = "http://www.shortyurl.com/";
+
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        shorteningService = new ShorteningService("http://www.shortyUrl.com/", mockUrlRepository);
+        shorteningService = new ShorteningService(SERVICE_NAME, mockUrlRepository);
     }
-
-    private static final String SERVICE_NAME = "http://www.shortyUrl.com/";
 
     @Test
     void convertToShortUrlTest() {

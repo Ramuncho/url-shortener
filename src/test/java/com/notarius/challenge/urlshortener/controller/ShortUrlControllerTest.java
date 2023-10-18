@@ -21,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class ShortUrlControllerTest {
 
+    public static final String SERVICE_NAME = "http://www.shortyurl.com/";
     @Autowired
     private MockMvc mockMvc;
 
@@ -36,7 +37,7 @@ class ShortUrlControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get(API_PATH + "/shorten-url").param("longUrl", decodedLongUrl))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().string(startsWith("http://www.shortyUrl.com/")));
+                .andExpect(content().string(startsWith(SERVICE_NAME)));
     }
 
     @Test
@@ -46,7 +47,7 @@ class ShortUrlControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get(API_PATH + "/shorten-url").param("longUrl", encodedLongUrl))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().string(startsWith("http://www.shortyUrl.com/")));
+                .andExpect(content().string(startsWith(SERVICE_NAME)));
     }
 
     @Test
@@ -58,19 +59,19 @@ class ShortUrlControllerTest {
         String shortUrlFromDecodedUrl = mockMvc.perform(MockMvcRequestBuilders.get(API_PATH + "/shorten-url").param("longUrl", decodedLongUrl))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().string(startsWith("http://www.shortyUrl.com/")))
+                .andExpect(content().string(startsWith(SERVICE_NAME)))
                 .andReturn().getResponse().getContentAsString();
 
         String shortUrlFromEncodedUrl = mockMvc.perform(MockMvcRequestBuilders.get(API_PATH + "/shorten-url").param("longUrl", encodedLongUrl))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().string(startsWith("http://www.shortyUrl.com/")))
+                .andExpect(content().string(startsWith(SERVICE_NAME)))
                 .andReturn().getResponse().getContentAsString();
 
         String otherShortUrl = mockMvc.perform(MockMvcRequestBuilders.get(API_PATH + "/shorten-url").param("longUrl", otherLongUrl))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().string(startsWith("http://www.shortyUrl.com/")))
+                .andExpect(content().string(startsWith(SERVICE_NAME)))
                 .andReturn().getResponse().getContentAsString();
 
         Assert.assertEquals(shortUrlFromDecodedUrl, shortUrlFromEncodedUrl);
@@ -88,17 +89,17 @@ class ShortUrlControllerTest {
     }
 
     @Test
-    void getOriginalUrlShouldReturnOk() throws Exception {
+    void getOriginalUrlShouldReturnFound() throws Exception {
         String initialLongUrl = "https://www.example.com/foo";
         String shortUrl = mockMvc.perform(MockMvcRequestBuilders.get(API_PATH + "/shorten-url").param("longUrl", initialLongUrl))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().string(startsWith("http://www.shortyUrl.com/")))
+                .andExpect(content().string(startsWith(SERVICE_NAME)))
                 .andReturn().getResponse().getContentAsString();
 
         String originalUrl = mockMvc.perform(MockMvcRequestBuilders.get(API_PATH + "/original-url").param("shortUrl", shortUrl))
                 .andDo(print())
-                .andExpect(status().isOk())
+                .andExpect(status().isFound())
                 .andReturn().getResponse().getContentAsString();
 
         Assert.assertEquals(initialLongUrl, originalUrl);
@@ -106,7 +107,7 @@ class ShortUrlControllerTest {
 
     @Test
     void getOriginalNonExistentUrlShouldReturnNotFound() throws Exception {
-        String nonExistentUrl = "http://www.shortyUrl.com/aHk5f7";
+        String nonExistentUrl = SERVICE_NAME + "aHk5f7";
 
         mockMvc.perform(MockMvcRequestBuilders.get(API_PATH + "/original-url").param("shortUrl", nonExistentUrl))
                 .andDo(print())
